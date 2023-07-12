@@ -12,7 +12,6 @@ public class ContaDTO {
 
     private Long id;
     private String nomeResponsavel;
-    private Double saldo;
 
     public ContaDTO(Conta obj) {
         this.id = obj.getId();

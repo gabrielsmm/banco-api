@@ -25,12 +25,6 @@ public class ContaService {
                 "Id: " + id + ", Tipo: " + Conta.class.getName()));
     }
 
-    public ContaDTO findWithSaldo(Long id) {
-        Conta conta = find(id);
-        Double saldo = repository.obterSaldoDaConta(conta.getId());
-        return new ContaDTO(conta.getId(), conta.getNomeResponsavel(), saldo);
-    }
-
     public Conta insert(Conta obj) {
         try {
             return repository.save(obj);

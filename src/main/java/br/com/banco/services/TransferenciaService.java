@@ -1,6 +1,7 @@
 package br.com.banco.services;
 
 import br.com.banco.dto.TransferenciaDTO;
+import br.com.banco.dto.TransferenciaPaginadaDTO;
 import br.com.banco.entities.Conta;
 import br.com.banco.entities.Transferencia;
 import br.com.banco.repositories.ContaRepository;
@@ -60,11 +61,15 @@ public class TransferenciaService {
         return repository.findAll().stream().map(TransferenciaDTO::new).collect(Collectors.toList());
     }
 
-    public Page<TransferenciaDTO> findPage(Integer page, Integer linesPerPage, String orderBy, String direction,
-                                           Long idConta, Date dataInicial, Date dataFinal, String nomeOperador) {
-        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
+    public TransferenciaPaginadaDTO findPage(Integer pagina, Integer registrosPorPagina, Long idConta, Date dataInicial, Date dataFinal, String nomeOperador) {
+        PageRequest pageRequest = PageRequest.of(pagina, registrosPorPagina, Sort.Direction.DESC, "dataTransferencia");
         Conta conta = contaRepository.findById(idConta).orElse(null);
-        return repository.findByFilter(conta, dataInicial, dataFinal, nomeOperador, pageRequest).map(TransferenciaDTO::new);
+
+        Page<Transferencia> transferencias = repository.findByFilter(conta, dataInicial, dataFinal, nomeOperador, pageRequest);
+        Double saldoTotal = repository.getSaldoTotal(conta);
+        Double saldoPeriodo = repository.getSaldoPeriodo(conta, dataInicial, dataFinal);
+
+        return new TransferenciaPaginadaDTO(transferencias, saldoTotal, saldoPeriodo);
     }
 
     private void updateData(Transferencia objExistente, Transferencia obj) {

@@ -23,4 +23,15 @@ public interface TransferenciaRepository extends JpaRepository<Transferencia, Lo
                     "t.conta = :conta")
     Page<Transferencia> findByFilter(Conta conta, Date dataInicial, Date dataFinal, String nomeOperador, Pageable pageable);
 
+    @Query("SELECT SUM(t.valor) FROM Transferencia t WHERE t.conta = :conta")
+    Double getSaldoTotal(Conta conta);
+
+    @Query("SELECT SUM(t.valor) FROM Transferencia t WHERE " +
+            "(:dataInicial IS NULL OR t.dataTransferencia >= :dataInicial) AND " +
+            "(:dataFinal IS NULL OR t.dataTransferencia <= :dataFinal) AND " +
+            "t.conta = :conta")
+    Double getSaldoPeriodo(Conta conta,
+                           Date dataInicial,
+                           Date dataFinal);
+
 }

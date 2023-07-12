@@ -11,6 +11,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/contas")
 @AllArgsConstructor
@@ -19,8 +20,8 @@ public class ContaController {
     private ContaService service;
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<ContaDTO> find(@PathVariable Long id) {
-        ContaDTO conta = service.findWithSaldo(id);
+    public ResponseEntity<Conta> find(@PathVariable Long id) {
+        Conta conta = service.find(id);
         return ResponseEntity.ok().body(conta);
     }
 
