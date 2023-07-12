@@ -1,5 +1,6 @@
 package br.com.banco.controllers;
 
+import br.com.banco.dto.TransferenciaDTO;
 import br.com.banco.entities.Transferencia;
 import br.com.banco.services.TransferenciaService;
 import lombok.AllArgsConstructor;
@@ -47,13 +48,13 @@ public class TransferenciaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Transferencia>> findAll() {
-        List<Transferencia> list = service.findAll();
+    public ResponseEntity<List<TransferenciaDTO>> findAll() {
+        List<TransferenciaDTO> list = service.findAll();
         return ResponseEntity.ok().body(list);
     }
 
     @GetMapping(value = "/page/{idConta}")
-    public ResponseEntity<Page<Transferencia>> findPage(
+    public ResponseEntity<Page<TransferenciaDTO>> findPage(
             @PathVariable Long idConta,
             @RequestParam(value="page", defaultValue="0") Integer page,
             @RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage,
@@ -63,7 +64,7 @@ public class TransferenciaController {
             @RequestParam(value="dataFinal", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date dataFinal,
             @RequestParam(value = "nomeOperador", required = false) String nomeOperador
             ) {
-        Page<Transferencia> list = service.findPage(page, linesPerPage, orderBy, direction, idConta, dataInicial, dataFinal, nomeOperador);
+        Page<TransferenciaDTO> list = service.findPage(page, linesPerPage, orderBy, direction, idConta, dataInicial, dataFinal, nomeOperador);
         return ResponseEntity.ok().body(list);
     }
 

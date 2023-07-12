@@ -1,5 +1,6 @@
 package br.com.banco.services;
 
+import br.com.banco.dto.TransferenciaDTO;
 import br.com.banco.entities.Conta;
 import br.com.banco.entities.Transferencia;
 import br.com.banco.repositories.ContaRepository;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -54,15 +56,15 @@ public class TransferenciaService {
         }
     }
 
-    public List<Transferencia> findAll() {
-        return repository.findAll();
+    public List<TransferenciaDTO> findAll() {
+        return repository.findAll().stream().map(TransferenciaDTO::new).collect(Collectors.toList());
     }
 
-    public Page<Transferencia> findPage(Integer page, Integer linesPerPage, String orderBy, String direction,
-                                        Long idConta, Date dataInicial, Date dataFinal, String nomeOperador) {
+    public Page<TransferenciaDTO> findPage(Integer page, Integer linesPerPage, String orderBy, String direction,
+                                           Long idConta, Date dataInicial, Date dataFinal, String nomeOperador) {
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
         Conta conta = contaRepository.findById(idConta).orElse(null);
-        return repository.findByFilter(conta, dataInicial, dataFinal, nomeOperador, pageRequest);
+        return repository.findByFilter(conta, dataInicial, dataFinal, nomeOperador, pageRequest).map(TransferenciaDTO::new);
     }
 
     private void updateData(Transferencia objExistente, Transferencia obj) {

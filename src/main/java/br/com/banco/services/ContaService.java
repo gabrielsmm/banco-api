@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -53,8 +54,8 @@ public class ContaService {
         }
     }
 
-    public List<Conta> findAll() {
-        return repository.findAll();
+    public List<ContaDTO> findAll() {
+        return repository.findAll().stream().map(ContaDTO::new).collect(Collectors.toList());
     }
 
     private void updateData(Conta objExistente, Conta obj) {

@@ -45,8 +45,8 @@ public class ContaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Conta>> findAll() {
-        List<Conta> list = service.findAll();
+    public ResponseEntity<List<ContaDTO>> findAll() {
+        List<ContaDTO> list = service.findAll();
         return ResponseEntity.ok().body(list);
     }
 
