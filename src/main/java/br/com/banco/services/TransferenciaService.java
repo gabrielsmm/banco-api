@@ -65,7 +65,7 @@ public class TransferenciaService {
         PageRequest pageRequest = PageRequest.of(pagina, registrosPorPagina, Sort.Direction.DESC, "dataTransferencia");
         Conta conta = contaRepository.findById(idConta).orElse(null);
 
-        Page<Transferencia> transferencias = repository.findByFilter(conta, dataInicial, dataFinal, nomeOperador, pageRequest);
+        Page<TransferenciaDTO> transferencias = repository.findByFilter(conta, dataInicial, dataFinal, nomeOperador, pageRequest).map(TransferenciaDTO::new);
         Double saldoTotal = repository.getSaldoTotal(conta);
         Double saldoPeriodo = repository.getSaldoPeriodo(conta, dataInicial, dataFinal);
 

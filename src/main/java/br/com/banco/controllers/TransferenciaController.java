@@ -57,10 +57,10 @@ public class TransferenciaController {
     @GetMapping(value = "/page")
     public ResponseEntity<TransferenciaPaginadaDTO> findPage(
             @RequestParam(value = "idConta") Long idConta,
-            @RequestParam(value="pagina", defaultValue="0") Integer pagina,
-            @RequestParam(value="registrosPorPagina", defaultValue="24") Integer registrosPorPagina,
-            @RequestParam(value="dataInicial", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date dataInicial,
-            @RequestParam(value="dataFinal", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date dataFinal,
+            @RequestParam(value = "pagina", defaultValue = "0") Integer pagina,
+            @RequestParam(value = "registrosPorPagina", defaultValue = "24") Integer registrosPorPagina,
+            @RequestParam(value = "dataInicial", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date dataInicial,
+            @RequestParam(value = "dataFinal", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date dataFinal,
             @RequestParam(value = "nomeOperador", required = false) String nomeOperador
             ) {
         TransferenciaPaginadaDTO transferenciaPaginada = service.findPage(pagina, registrosPorPagina, idConta, dataInicial, dataFinal, nomeOperador);
