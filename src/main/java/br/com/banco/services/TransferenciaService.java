@@ -67,7 +67,7 @@ public class TransferenciaService {
 
         Page<TransferenciaDTO> transferencias = repository.findByFilter(conta, dataInicial, dataFinal, nomeOperador, pageRequest).map(TransferenciaDTO::new);
         Double saldoTotal = repository.getSaldoTotal(conta);
-        Double saldoPeriodo = repository.getSaldoPeriodo(conta, dataInicial, dataFinal);
+        Double saldoPeriodo = repository.getSaldoPeriodo(conta, dataInicial, dataFinal, nomeOperador);
 
         return new TransferenciaPaginadaDTO(transferencias, saldoTotal, saldoPeriodo);
     }

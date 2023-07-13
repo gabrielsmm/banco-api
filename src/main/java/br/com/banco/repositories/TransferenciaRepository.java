@@ -14,12 +14,12 @@ public interface TransferenciaRepository extends JpaRepository<Transferencia, Lo
     @Query(value = "SELECT t FROM Transferencia t WHERE " +
             "(:dataInicial IS NULL OR t.dataTransferencia >= :dataInicial) AND " +
             "(:dataFinal IS NULL OR t.dataTransferencia <= :dataFinal) AND " +
-            "(:nomeOperador IS NULL OR t.nomeOperadorTransacao = :nomeOperador) AND " +
+            "(:nomeOperador IS NULL OR :nomeOperador = '' OR LOWER(t.nomeOperadorTransacao) = LOWER(:nomeOperador)) AND " +
             "t.conta = :conta",
             countQuery = "SELECT count(t) FROM Transferencia t WHERE " +
                     "(:dataInicial IS NULL OR t.dataTransferencia >= :dataInicial) AND " +
                     "(:dataFinal IS NULL OR t.dataTransferencia <= :dataFinal) AND " +
-                    "(:nomeOperador IS NULL OR t.nomeOperadorTransacao = :nomeOperador) AND " +
+                    "(:nomeOperador IS NULL OR :nomeOperador = '' OR LOWER(t.nomeOperadorTransacao) = LOWER(:nomeOperador)) AND " +
                     "t.conta = :conta")
     Page<Transferencia> findByFilter(Conta conta, Date dataInicial, Date dataFinal, String nomeOperador, Pageable pageable);
 
@@ -29,9 +29,11 @@ public interface TransferenciaRepository extends JpaRepository<Transferencia, Lo
     @Query("SELECT SUM(t.valor) FROM Transferencia t WHERE " +
             "(:dataInicial IS NULL OR t.dataTransferencia >= :dataInicial) AND " +
             "(:dataFinal IS NULL OR t.dataTransferencia <= :dataFinal) AND " +
+            "(:nomeOperador IS NULL OR :nomeOperador = '' OR LOWER(t.nomeOperadorTransacao) = LOWER(:nomeOperador)) AND " +
             "t.conta = :conta")
     Double getSaldoPeriodo(Conta conta,
                            Date dataInicial,
-                           Date dataFinal);
+                           Date dataFinal,
+                           String nomeOperador);
 
 }
